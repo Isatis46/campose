@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:layoutDirection="rtl">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp" android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="16dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name" android:textColor="@color/accent" android:textSize="23sp" android:textStyle="bold" />
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:text="@string/tagline" android:textColor="@color/text_secondary" android:textSize="12sp" />
+    </LinearLayout>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#000000">
+        <com.isatis.campose.ui.PortraitFrameLayout android:id="@+id/viewfinder" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_gravity="center" android:clipChildren="true">
+            <androidx.camera.view.PreviewView android:id="@+id/preview" android:layout_width="match_parent" android:layout_height="match_parent" />
+            <com.isatis.campose.overlay.ReferenceOverlayView android:id="@+id/overlay" android:layout_width="match_parent" android:layout_height="match_parent" android:contentDescription="@string/reference_surface" />
+        </com.isatis.campose.ui.PortraitFrameLayout>
+        <TextView android:id="@+id/referenceHint" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom" android:padding="8dp" android:gravity="center" android:text="@string/reference_empty" android:textSize="12sp" android:textColor="@color/text_primary" android:background="#AA0C1212" android:importantForAccessibility="no" />
+        <LinearLayout android:id="@+id/cameraMessagePanel" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="24dp" android:background="#E60C1212">
+            <TextView android:id="@+id/cameraMessage" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="@string/camera_starting" android:textColor="@color/text_primary" />
+            <Button android:id="@+id/cameraAction" style="@style/ControlButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/grant_permission" android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="12dp" android:background="@color/surface">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:orientation="horizontal">
+            <Button android:id="@+id/chooseReference" style="@style/ControlButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="@string/choose_reference" />
+            <Button android:id="@+id/removeReference" style="@style/ControlButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="@string/remove_reference" android:enabled="false" />
+            <Switch android:id="@+id/editReference" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:text="@string/edit_reference" android:textColor="@color/text_primary" android:textSize="12sp" android:checked="true" android:enabled="false" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:id="@+id/opacityLabel" android:layout_width="100dp" android:layout_height="wrap_content" android:textColor="@color/text_primary" android:textSize="13sp" />
+            <SeekBar android:id="@+id/opacity" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:max="100" android:progress="50" android:enabled="false" android:contentDescription="@string/opacity_accessibility" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:id="@+id/zoomLabel" android:layout_width="100dp" android:layout_height="wrap_content" android:textColor="@color/text_primary" android:textSize="13sp" />
+            <SeekBar android:id="@+id/zoom" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:max="1000" android:enabled="false" android:contentDescription="@string/zoom_accessibility" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/lensPresets" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center">
+            <Button android:id="@+id/lens28" style="@style/ControlButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="@string/lens_28" android:enabled="false" />
+            <Button android:id="@+id/lens35" style="@style/ControlButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="@string/lens_35" android:enabled="false" />
+            <Button android:id="@+id/lens55" style="@style/ControlButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="@string/lens_55" android:enabled="false" />
+        </LinearLayout>
+        <TextView android:id="@+id/lensNote" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="@string/lens_note" android:textColor="@color/text_secondary" android:textSize="11sp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="88dp" android:orientation="horizontal" android:gravity="center_vertical">
+            <Button android:id="@+id/switchCamera" style="@style/ControlButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="@string/switch_camera" android:enabled="false" />
+            <Button android:id="@+id/capture" style="@style/ControlButton" android:layout_width="72dp" android:layout_height="72dp" android:background="@drawable/shutter_background" android:backgroundTint="@null" android:text="@string/capture" android:textColor="@color/background" android:textSize="12sp" android:enabled="false" />
+            <Button android:id="@+id/resetReference" style="@style/ControlButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="@string/reset_reference" android:enabled="false" />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp" android:gravity="center" android:text="@string/footer" android:textColor="@color/text_secondary" android:textSize="11sp" />
+    </LinearLayout>
+</LinearLayout>
