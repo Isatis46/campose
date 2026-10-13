@@ -1,0 +1,54 @@
+name: Publish Campose v1.0.0
+
+on:
+  push:
+    branches: [publish/v1.0.0]
+    paths:
+      - .github/workflows/publish-v1.yml
+      - release-assets/**
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-campose-v1.0.0
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SOURCE_COMMIT: db81dd4057c41310b0100a9d2aad3222ce03f833
+      RELEASE_TAG: v1.0.0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify the tested release files
+        working-directory: release-assets
+        run: |
+          set -euo pipefail
+          sha256sum --check SHA256SUMS.txt
+          unzip -t Campose-v1.0.0-source.zip
+          git merge-base --is-ancestor "$SOURCE_COMMIT" HEAD
+      - name: Upload files to a draft, then publish
+        working-directory: release-assets
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "Release $RELEASE_TAG already exists; refusing to replace its files."
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" \
+            Campose-v1.0.0-debug.apk \
+            Campose-v1.0.0-source.zip \
+            SHA256SUMS.txt \
+            --target "$SOURCE_COMMIT" \
+            --title "Campose v1.0.0 — نسخهٔ آزمایشی" \
+            --notes-file NOTES.md \
+            --draft \
+            --prerelease
+          gh release edit "$RELEASE_TAG" --draft=false --prerelease --latest=false
